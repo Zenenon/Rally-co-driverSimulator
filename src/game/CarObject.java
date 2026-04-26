@@ -1,6 +1,9 @@
 package game;
 
 import java.awt.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.awt.geom.Point2D;
 
 /**
  * Represents the physical rally car and its current logical state.
@@ -111,6 +114,9 @@ public class CarObject {
         this.isPaused = false;
     }
 
+    public double getX() { return x; }
+    public double getY() { return y; }
+
     public void setOnCrest(boolean state) { this.isOnCrest = state; }
     public void setLane(LanePosition lp) { this.currentLane = lp; }
     public void setCanCut(boolean state) { this.canCut = state; }
@@ -125,8 +131,7 @@ public class CarObject {
         g.translate(x, y);
         g.rotate(Math.toRadians(angle));
 
-        // Body color changes slightly if on a crest (visual feedback)
-        g.setColor(isOnCrest ? new Color(100, 160, 255) : new Color(30, 80, 180));
+        g.setColor(new Color(30, 80, 180));
         g.fillRoundRect(-18, -10, 36, 20, 8, 8);
 
         // Dashboard/Front indicator
@@ -134,6 +139,48 @@ public class CarObject {
         g.fillRect(8, -6, 4, 12);
 
         g.dispose();
+    }
+
+    public boolean isWaiting() {
+        return isPaused;
+    }
+
+    public List<Point2D.Double> getPredictedPath(double testSteeringRate, int totalMeters) {
+        List<Point2D.Double> path = new ArrayList<>();
+
+        // 1. Copy the current state so we don't move the actual car
+        double tempX = this.x;
+        double tempY = this.y;
+        double tempAngle = this.angle;
+        double tempSpeed = this.currentSpeedKmH;
+
+        // 2. Simulation parameters
+        double stepDistMeters = 2.0; // Calculate a point every 2 meters
+        int steps = totalMeters / (int)stepDistMeters;
+
+        // Scale for rendering
+        double pixelsPerMeter = 2.0;
+
+        for (int i = 0; i < steps; i++) {
+            // A. Apply Understeer Physics (Same as in update method)
+            // High speed makes the steering rate less effective
+            double speedPenalty = Math.max(1.0, tempSpeed / 50.0);
+            double effectiveSteer = testSteeringRate / (speedPenalty * speedPenalty);
+
+            // B. Update Angle and Position
+            tempAngle += (effectiveSteer * stepDistMeters);
+
+            double rad = Math.toRadians(tempAngle);
+            tempX += (stepDistMeters * pixelsPerMeter * Math.cos(rad));
+            tempY += (stepDistMeters * pixelsPerMeter * Math.sin(rad));
+
+            // C. Record the predicted point
+            path.add(new Point2D.Double(tempX, tempY));
+
+            // Note: We assume speed is constant during this prediction
+        }
+
+        return path;
     }
 
     public double getSpeed() { return currentSpeedKmH; }

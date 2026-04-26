@@ -1,0 +1,43 @@
+### The "Starting Procedure"
+
+**To start the car from 0 km/h, use one of these:**
+
+* **Option A (The "Crest" Start):** `szczyt dnem, 200`
+* **Option B (The "Wide Turn" Start):** `P 1 dnem, 150`
+* **Option C (The "Gentle" Start):** `szczyt plus, 100`
+
+---
+
+### Master List of Working Commands
+
+#### **Driving Straight (Maintaining Speed)**
+* `100`
+* `250 prosto`
+* `500`
+
+#### **Accelerating (Speeding Up)**
+* `szczyt dnem, 200` (Full throttle)
+* `szczyt +, 100` (Moderate gas)
+* `L 1 _, 150` (Slight left curve, floor the gas)
+
+#### **Braking (Slowing Down)**
+* `hamuj, 100` (Standard brake)
+* `pełne hamowanie, 50` (Emergency brake)
+* `przyhamuj, 80` (Light tap)
+
+#### **Turning (Steering)**
+* `L 2, 100` (Wide left)
+* `P 5, 40` (Sharp right - **Brake before this!**)
+* `nawrót L, 20` (U-turn)
+
+#### **Complex Chains (The "Rally" Way)**
+* `szczyt dnem, 200, hamuj, P 3, 50, szczyt +, 100`
+    * *Translation:* Floor it for 200m, brake, take a medium right for 50m, then accelerate moderately for 100m.
+
+---
+
+To ensure the car behaves and the code doesn't crash, follow these rules:
+1.  **Numbers First:** Always write `100 prosto`, never `prosto 100`.
+2.  **No Solo Modifiers:** Never start a command with `dnem`, `plus`, or `zduś`. Always put `szczyt` or a turn (`L 2`) before them.
+3.  **Lowercase Only:** The parser expects `lewy`, not `LEWY`.
+4.  **Commas Matter:** Use commas to separate different elements in a sequence.
