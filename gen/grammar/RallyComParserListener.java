@@ -18,15 +18,39 @@ public interface RallyComParserListener extends ParseTreeListener {
 	 */
 	void exitProgram(RallyComParser.ProgramContext ctx);
 	/**
-	 * Enter a parse tree produced by {@link RallyComParser#pacenote}.
+	 * Enter a parse tree produced by the {@code loopPhrase}
+	 * labeled alternative in {@link RallyComParser#pacenote}.
 	 * @param ctx the parse tree
 	 */
-	void enterPacenote(RallyComParser.PacenoteContext ctx);
+	void enterLoopPhrase(RallyComParser.LoopPhraseContext ctx);
 	/**
-	 * Exit a parse tree produced by {@link RallyComParser#pacenote}.
+	 * Exit a parse tree produced by the {@code loopPhrase}
+	 * labeled alternative in {@link RallyComParser#pacenote}.
 	 * @param ctx the parse tree
 	 */
-	void exitPacenote(RallyComParser.PacenoteContext ctx);
+	void exitLoopPhrase(RallyComParser.LoopPhraseContext ctx);
+	/**
+	 * Enter a parse tree produced by the {@code normalPhrase}
+	 * labeled alternative in {@link RallyComParser#pacenote}.
+	 * @param ctx the parse tree
+	 */
+	void enterNormalPhrase(RallyComParser.NormalPhraseContext ctx);
+	/**
+	 * Exit a parse tree produced by the {@code normalPhrase}
+	 * labeled alternative in {@link RallyComParser#pacenote}.
+	 * @param ctx the parse tree
+	 */
+	void exitNormalPhrase(RallyComParser.NormalPhraseContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link RallyComParser#repeatPhrase}.
+	 * @param ctx the parse tree
+	 */
+	void enterRepeatPhrase(RallyComParser.RepeatPhraseContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link RallyComParser#repeatPhrase}.
+	 * @param ctx the parse tree
+	 */
+	void exitRepeatPhrase(RallyComParser.RepeatPhraseContext ctx);
 	/**
 	 * Enter a parse tree produced by {@link RallyComParser#sequence}.
 	 * @param ctx the parse tree
@@ -97,6 +121,16 @@ public interface RallyComParserListener extends ParseTreeListener {
 	 * @param ctx the parse tree
 	 */
 	void exitPositioningPhrase(RallyComParser.PositioningPhraseContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link RallyComParser#anyNumber}.
+	 * @param ctx the parse tree
+	 */
+	void enterAnyNumber(RallyComParser.AnyNumberContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link RallyComParser#anyNumber}.
+	 * @param ctx the parse tree
+	 */
+	void exitAnyNumber(RallyComParser.AnyNumberContext ctx);
 	/**
 	 * Enter a parse tree produced by {@link RallyComParser#turnSpec}.
 	 * @param ctx the parse tree

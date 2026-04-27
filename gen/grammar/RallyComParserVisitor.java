@@ -17,11 +17,25 @@ public interface RallyComParserVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitProgram(RallyComParser.ProgramContext ctx);
 	/**
-	 * Visit a parse tree produced by {@link RallyComParser#pacenote}.
+	 * Visit a parse tree produced by the {@code loopPhrase}
+	 * labeled alternative in {@link RallyComParser#pacenote}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	T visitPacenote(RallyComParser.PacenoteContext ctx);
+	T visitLoopPhrase(RallyComParser.LoopPhraseContext ctx);
+	/**
+	 * Visit a parse tree produced by the {@code normalPhrase}
+	 * labeled alternative in {@link RallyComParser#pacenote}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitNormalPhrase(RallyComParser.NormalPhraseContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link RallyComParser#repeatPhrase}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitRepeatPhrase(RallyComParser.RepeatPhraseContext ctx);
 	/**
 	 * Visit a parse tree produced by {@link RallyComParser#sequence}.
 	 * @param ctx the parse tree
@@ -63,6 +77,12 @@ public interface RallyComParserVisitor<T> extends ParseTreeVisitor<T> {
 	 * @return the visitor result
 	 */
 	T visitPositioningPhrase(RallyComParser.PositioningPhraseContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link RallyComParser#anyNumber}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitAnyNumber(RallyComParser.AnyNumberContext ctx);
 	/**
 	 * Visit a parse tree produced by {@link RallyComParser#turnSpec}.
 	 * @param ctx the parse tree

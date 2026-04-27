@@ -41,6 +41,10 @@ NA                : 'na';
 
 COMMA             : ',';
 
+X                 : 'x';
+LBRACK            : '[';
+RBRACK            : ']';
+
 NEWLINE           : [\r\n]+ -> channel(HIDDEN);
 
 WS                : [ \t]+ -> channel(HIDDEN);

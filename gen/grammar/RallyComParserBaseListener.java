@@ -29,13 +29,37 @@ public class RallyComParserBaseListener implements RallyComParserListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterPacenote(RallyComParser.PacenoteContext ctx) { }
+	@Override public void enterLoopPhrase(RallyComParser.LoopPhraseContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitPacenote(RallyComParser.PacenoteContext ctx) { }
+	@Override public void exitLoopPhrase(RallyComParser.LoopPhraseContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterNormalPhrase(RallyComParser.NormalPhraseContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitNormalPhrase(RallyComParser.NormalPhraseContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterRepeatPhrase(RallyComParser.RepeatPhraseContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitRepeatPhrase(RallyComParser.RepeatPhraseContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
@@ -108,6 +132,18 @@ public class RallyComParserBaseListener implements RallyComParserListener {
 	 * <p>The default implementation does nothing.</p>
 	 */
 	@Override public void exitPositioningPhrase(RallyComParser.PositioningPhraseContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterAnyNumber(RallyComParser.AnyNumberContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitAnyNumber(RallyComParser.AnyNumberContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *

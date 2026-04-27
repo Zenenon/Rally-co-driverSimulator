@@ -23,6 +23,29 @@ public class RallyVisitor extends RallyComParserBaseVisitor<Void> {
      * Handles: direct=(LEWY|PRAWY) turnSpec? modifier*
      */
     @Override
+    public Void visitLoopPhrase(RallyComParser.LoopPhraseContext ctx) {
+        return visit(ctx.repeatPhrase());
+    }
+
+    @Override
+    public Void visitRepeatPhrase(RallyComParser.RepeatPhraseContext ctx) {
+        int iterations = Integer.parseInt(ctx.count.getText());
+
+        for (int i = 0; i < iterations; i++) {
+            // We tell the visitor to re-process every pacenote inside the [ ]
+            for (RallyComParser.PacenoteContext pacenote : ctx.pacenote()) {
+                this.visit(pacenote);
+            }
+        }
+        return null;
+    }
+
+    @Override
+    public Void visitNormalPhrase(RallyComParser.NormalPhraseContext ctx) {
+        return visit(ctx.sequence());
+    }
+
+    @Override
     public Void visitTurnPhrase(RallyComParser.TurnPhraseContext ctx) {
         double severity = 3.0; // Default turn intensity
 
@@ -53,7 +76,7 @@ public class RallyVisitor extends RallyComParserBaseVisitor<Void> {
         int meters = Integer.parseInt(ctx.dist.getText());
 
         // Pass the accumulated steering and acceleration to the car
-        car.triggerMove(pendingAccel, meters, pendingSteer);
+        car.queueMove(pendingAccel, meters, pendingSteer);
 
         // Reset command buffer for the next part of the pacenote sequence
         pendingAccel = 0;
@@ -78,7 +101,7 @@ public class RallyVisitor extends RallyComParserBaseVisitor<Void> {
             return visit(ctx.element());
         } else {
             // If just "hamuj" is typed, brake over a default 30m stretch
-            car.triggerMove(pendingAccel, 30, pendingSteer);
+            car.queueMove(pendingAccel, 30, pendingSteer);
             return null;
         }
     }

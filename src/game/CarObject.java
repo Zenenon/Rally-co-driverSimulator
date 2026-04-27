@@ -2,7 +2,9 @@ package game;
 
 import java.awt.*;
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
+import java.util.Queue;
 import java.awt.geom.Point2D;
 
 /**
@@ -35,6 +37,12 @@ public class CarObject {
     private static final double NATURAL_DRAG = 0.55; // Air/Rolling resistance
     private static final double GRIP_LOSS_SPEED = 40.0; // Speed where understeer begins
 
+    // The Queue: Stores a list of commands to be executed sequentially
+    private final Queue<Command> commandQueue = new LinkedList<>();
+
+    // A small helper class to store command data
+    private record Command(double accel, int meters, double steer) {}
+
     public CarObject(int startX, int startY) {
         this.x = startX;
         this.y = startY;
@@ -45,6 +53,15 @@ public class CarObject {
      * @param deltaTime Time since last frame in seconds (e.g., 0.016 for 60FPS).
      */
     public void update(double deltaTime) {
+        // If the car is idle and there are commands waiting, load the next one
+        if (isPaused && !commandQueue.isEmpty()) {
+            Command next = commandQueue.poll();
+            this.acceleration = next.accel;
+            this.remainingDistance = next.meters;
+            this.steeringRate = next.steer;
+            this.isPaused = false;
+        }
+
         if (isPaused) return;
 
         // 1. UPDATE SPEED
@@ -83,7 +100,7 @@ public class CarObject {
         // 4. CHECK COMPLETION
         remainingDistance -= frameDist;
         if (remainingDistance <= 0) {
-            finishInstruction();
+            isPaused = true;
         }
 
         // Add this inside the update() method
@@ -94,25 +111,17 @@ public class CarObject {
         }
     }
 
+    public void queueMove(double accel, int meters, double steer) {
+        commandQueue.add(new Command(accel, meters, steer));
+    }
+
+    public boolean isWaiting() {
+        return isPaused && commandQueue.isEmpty();
+    }
+
     /**
      * Stops the car's current instruction while preserving speed.
      */
-    private void finishInstruction() {
-        remainingDistance = 0;
-        acceleration = 0;
-        steeringRate = 0;
-        isOnCrest = false; // Car "lands" after passing a crest
-        isPaused = true;
-    }
-
-    // --- State Setters (Used by RallyVisitor) ---
-
-    public void triggerMove(double accel, int meters, double steer) {
-        this.acceleration = accel;
-        this.remainingDistance = meters;
-        this.steeringRate = steer;
-        this.isPaused = false;
-    }
 
     public double getX() { return x; }
     public double getY() { return y; }
@@ -139,10 +148,6 @@ public class CarObject {
         g.fillRect(8, -6, 4, 12);
 
         g.dispose();
-    }
-
-    public boolean isWaiting() {
-        return isPaused;
     }
 
     public List<Point2D.Double> getPredictedPath(double testSteeringRate, int totalMeters) {

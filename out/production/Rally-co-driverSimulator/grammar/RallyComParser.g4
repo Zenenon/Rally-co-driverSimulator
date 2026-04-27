@@ -6,7 +6,12 @@ program:
     ;
 
 pacenote:
-    sequence
+    repeatPhrase    #loopPhrase
+    | sequence      #normalPhrase
+    ;
+
+repeatPhrase:
+    count=anyNumber X LBRACK pacenote (',' pacenote)* RBRACK
     ;
 
 sequence:
@@ -19,6 +24,10 @@ element:
     | dist=INT PROSTO? #distancePhrase
     | SZCZYT modifier* #crestPhrase
     | (DO_LEWEJ|DO_PRAWEJ|Z_DROGI) #positioningPhrase
+    ;
+
+anyNumber:
+    INT | JEDEN | DWA | TRZY | CZTERY | PIEC
     ;
 
 turnSpec:
