@@ -41,3 +41,7 @@ To ensure the car behaves and the code doesn't crash, follow these rules:
 2.  **No Solo Modifiers:** Never start a command with `dnem`, `plus`, or `zduś`. Always put `szczyt` or a turn (`L 2`) before them.
 3.  **Lowercase Only:** The parser expects `lewy`, not `LEWY`.
 4.  **Commas Matter:** Use commas to separate different elements in a sequence.
+
+
+
+ źródła na eportal, plik demo, instrukcja obsługi readme.md , instrukcja jak używać i co można z nim zrobić

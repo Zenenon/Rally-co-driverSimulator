@@ -1,6 +1,23 @@
 Rally Co-Driver Simulator - Command Guide
 
 Welcome to the Rally Co-Driver Simulator. This guide will teach you how to use the text-based navigation system to pilot your car through stages using authentic rally pace notes.
+
+How to Run the Program
+
+    Requirements: Ensure you have Java 17 or higher installed.
+
+    Compilation: If you are using an IDE (like IntelliJ IDEA), ensure the antlr-4.13.2-complete.jar is added to your project's libraries.
+
+    Launch: Run the RallyLauncher.java file located in the game package.
+
+    Interface:
+
+        The Map: The car is centered on the screen.
+
+        Prediction Arrows: When the car is waiting for a command, you will see dashed arrows showing where the car would go if you turn left, right, or go straight at your current speed.
+
+        The Console: Type your commands in the text field at the bottom and press Enter.
+
 1. Basics: Moving and Turning
 
 In the world of rally, instructions are usually given as a Direction, a Severity, and a Distance.
@@ -43,9 +60,26 @@ Braking is an action that resets your acceleration to a negative value.
 
     przyhamuj, lewy 2, 80 — Tap the brakes, then enter a wide left turn for 80m.
 
-3. Advanced: Complex Sequences
+3. The Loop: Repetitive Commands
 
-You can chain multiple instructions together using commas. Real rally stages require preparing for a turn long before you reach it.
+If you need to perform the same sequence multiple times (e.g., a slalom or a repetitive technical section), you can use the Repetition Mechanic.
+
+Syntax: [count]x [ [sequence] ]
+
+    Slalom Example: 3x [L 2, 50, P 2, 50]
+
+        The car will turn left for 50m, then right for 50m, and repeat this cycle 3 times.
+
+    Sequential Braking: 2x [hamuj, 50, 50]
+
+        Brake for 50m, then coast for 50m, repeated twice.
+
+    Complex Loop: szczyt dnem, 100, 2x [L 4, 30, hamuj, 20]
+
+        Floor it for 100m, then repeat the sequence (Sharp Left -> Brake) twice.
+4. Advanced: Complex Sequences
+
+You can chain multiple instructions using commas. Real rally stages require preparing for a turn long before you reach it.
 The "Pro" Approach: Brake-Turn-Accelerate
 
 If you approach a sharp corner at 180 km/h, the car will understeer (plow straight) because the tires lose grip at high speeds. You must slow down first.
@@ -57,39 +91,12 @@ Breakdown of the flow:
 
     do prawej: Move to the right side of the road to "open up" the next left turn.
 
-    pełne hamowanie, 80: Slam the brakes for 80 meters to drop from high speed.
+    pełne hamowanie, 80: Slam the brakes for 80 meters to drop speed.
 
-    lewy 5 zduś, 30: Now that you are slow, take a very sharp left turn using engine braking (zduś) for 30 meters.
+    lewy 5 zduś, 30: At low speed, take a sharp left turn using engine braking (zduś).
 
-    szczyt dnem, 150: Aim for the crest of the hill, floor the gas (dnem), and blast forward for 150 meters.
+    szczyt dnem, 150: Aim for the hill crest, floor the gas, and blast forward.
 
-4. Full Command Reference
-Steering (Direction & Severity)
-Command	Type	Description
-lewy / L	Direction	Steer to the left.
-prawy / P	Direction	Steer to the right.
-1 to 5	Severity	1 = Fast/Wide, 5 = Slow/Sharp.
-maks / max	Severity	The tightest possible steering angle.
-nawrót	Severity	A 180-degree U-turn (Hairpin).
-Speed Modifiers (Must follow a Turn or Crest)
-Modifier	Effect	Physics Impact
-dnem / _	Full Throttle	Maximum acceleration.
-plus / +	Aggressive	High acceleration.
-pół / pol	Gentle	Light acceleration.
-zduś / zdus	Engine Brake	Significant speed reduction during a turn.
-Braking Actions
-Action	Intensity	Usage
-przyhamuj	Light	Settle the car before a fast curve.
-hamuj	Medium	Standard braking for most corners.
-pełne hamowanie	Heavy	Emergency stopping or preparing for hairpins.
-Positioning and Environment
-Command	Effect
-do lewej	Hug the left side of the track.
-do prawej	Hug the right side of the track.
-z drogi	Drive on the shoulder/rough surface.
-szczyt / ^	A crest. Steering is less effective while the car is "light."
-ciąć	Instruction to cut the corner (inner apex).
-nie ciąć	Warning to stay on the road (outer apex).
 5. Important Rules to Remember
 
     Physics Limit: If you are going faster than 100 km/h, sharp turns (4, 5, MAX) will cause the car to slide straight. Brake before you turn!
